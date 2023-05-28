@@ -24,18 +24,24 @@
 </head>
 <body>
     <div class="container">
+        <a href="/" class="btn btn-link mt-3">Back</a>
         <h1 class="mt-5">Search Results</h1>
-        <% items.forEach(item => { %>
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h2 class="card-title"><%= item.manifest.name_for_human %></h2> <!-- Change here -->
-                    <p class="card-text"><%= item.manifest.description_for_human %></p>
-                    <p class="card-text">Plugin ID: <%= item.id %></p>
-                    <img src="<%= item.manifest.logo_url %>" class="mx-auto d-block logo" alt="<%= item.manifest.name_for_human %> Logo"> <!-- Change here -->
-                    <a href="<%= item.manifest.api.url %>" class="btn btn-primary api-button">API Documentation</a>
+        <% if (items.length > 0) { %>
+            <% items.forEach(item => { %>
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h2 class="card-title"><%= item.manifest.name_for_human %></h2>
+                        <p class="card-text"><%= item.manifest.description_for_human %></p>
+                        <p class="card-text">Plugin ID: <%= item.id %></p>
+                        <img src="<%= item.manifest.logo_url %>" class="mx-auto d-block logo" alt="<%= item.manifest.name_for_human %> Logo">
+                        <a href="<%= item.manifest.api.url %>" class="btn btn-primary api-button">API Documentation</a>
+                    </div>
                 </div>
-            </div>
-        <% }); %>
+            <% }); %>
+        <% } else { %>
+            <h2 class="mt-5">No results found 😞</h2>
+            <p>Try a different search!</p>
+        <% } %>
     </div>
     <footer class="footer" style="margin-top: 10px; text-align: center;">
         <p>Created by <a href="https://github.com/Louvivien" target="_blank">Louvivien</a></p>
