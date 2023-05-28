@@ -2,6 +2,10 @@
 
 This is a simple web application for searching OpenAI plugins. It uses Node.js and Express.js for the backend and plain HTML/CSS/JavaScript for the frontend.
 
+## Live demo
+
+[Live demo](https://openaipluginsearch.onrender.com/)
+
 ## Setup
 
 To run this project, you need to have Node.js installed. Follow these steps:
@@ -13,6 +17,7 @@ To run this project, you need to have Node.js installed. Follow these steps:
 5. Start the server: `node server.js`
 
 The application will be running at `http://localhost:3000`.
+
 
 ## Usage
 
