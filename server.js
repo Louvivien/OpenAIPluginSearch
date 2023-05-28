@@ -29,13 +29,19 @@ app.get('/search', async (req, res) => {
             }
         });
 
-        // Filter the items based on the query
-        const items = response.data.items;
-        const filteredItems = items.filter(item => {
-            return item.namespace.toLowerCase().includes(query.toLowerCase()) || 
-                   item.manifest.description_for_model.toLowerCase().includes(query.toLowerCase()) ||
-                   item.manifest.description_for_human.toLowerCase().includes(query.toLowerCase());
-        });
+            // Filter the items based on the query
+            const items = response.data.items;
+            const queryWords = query.toLowerCase().split(' ');
+            const filteredItems = items
+                .map(item => {
+                    const itemText = (item.namespace + ' ' + item.manifest.description_for_model + ' ' + item.manifest.description_for_human).toLowerCase();
+                    const matchCount = queryWords.reduce((count, word) => count + (itemText.includes(word) ? 1 : 0), 0);
+                    return { item, matchCount };
+                })
+                .filter(({ matchCount }) => matchCount > 0)
+                .sort((a, b) => b.matchCount - a.matchCount)
+                .map(({ item }) => item);
+
 
         res.render('results', { items: filteredItems });
     } catch (error) {
