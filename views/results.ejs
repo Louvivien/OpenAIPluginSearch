@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OpenAI Plugin Search Results</title>
+        <meta name="description" content="Search results for OpenAI plugins.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        .api-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Search Results</h1>
+        <% items.forEach(item => { %>
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h2 class="card-title"><%= item.namespace %></h2>
+                    <p class="card-text"><%= item.manifest.description_for_human %></p>
+                    <p class="card-text">Plugin ID: <%= item.id %></p>
+                    <img src="<%= item.manifest.logo_url %>" class="mx-auto d-block logo" alt="<%= item.namespace %> Logo">
+                    <a href="<%= item.manifest.api.url %>" class="btn btn-primary api-button">API Documentation</a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>
