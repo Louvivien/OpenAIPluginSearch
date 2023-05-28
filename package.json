@@ -4,21 +4,21 @@
     "description": "A simple web app to search for OpenAI plugins",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js"
     },
     "keywords": [
-      "openai",
-      "plugin",
-      "search"
+        "openai",
+        "plugin",
+        "search"
     ],
     "author": "Louvivien",
     "license": "ISC",
     "dependencies": {
-      "axios": "^0.21.1",
-      "cors": "^2.8.5",
-      "dotenv": "^8.2.0",
-      "express": "^4.17.1",
-      "ejs": "^3.1.6"
+        "axios": "^0.21.1",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.1.6",
+        "express": "^4.17.1",
+        "morgan": "^1.10.0"
     }
-  }
-  
+}

@@ -2,18 +2,22 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan'); // Add this line
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // This line is needed to serve static files like robots.txt and sitemap.xml
+app.use(morgan('combined')); // Add this line
 
 app.get('/', (req, res) => {
+    console.log('GET request to /');
     res.render('index');
 });
 
 app.get('/search', async (req, res) => {
+    console.log(`GET request to /search with query ${req.query.q}`);
     const query = req.query.q;
     const url = process.env.SERVER+`${query}`;
 
@@ -35,6 +39,7 @@ app.get('/search', async (req, res) => {
 
         res.render('results', { items: filteredItems });
     } catch (error) {
+        console.error(`Error during /search: ${error.toString()}`);
         res.json({ error: error.toString() });
     }
 });

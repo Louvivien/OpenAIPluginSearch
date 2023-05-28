@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
     <title>OpenAI Plugin Search</title>
     <meta name="description" content="Search for OpenAI plugins. You can search by plugin name or by a keyword related to the plugin's functionality.">
@@ -22,6 +20,17 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            color: black;
+            text-align: center;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +43,9 @@
             <button type="submit" class="btn btn-primary mt-3">Search</button>
         </form>
     </div>
+    <footer class="footer">
+        <p>Created by <a href="https://github.com/Louvivien" target="_blank">Louvivien</a></p>
+    </footer>
     <script>
         const form = document.querySelector('form');
         const loader = document.getElementById('loader');

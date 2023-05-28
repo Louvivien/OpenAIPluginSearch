@@ -24,14 +24,17 @@
         <% items.forEach(item => { %>
             <div class="card mt-5">
                 <div class="card-body">
-                    <h2 class="card-title"><%= item.namespace %></h2>
+                    <h2 class="card-title"><%= item.manifest.name_for_human %></h2> <!-- Change here -->
                     <p class="card-text"><%= item.manifest.description_for_human %></p>
                     <p class="card-text">Plugin ID: <%= item.id %></p>
-                    <img src="<%= item.manifest.logo_url %>" class="mx-auto d-block logo" alt="<%= item.namespace %> Logo">
+                    <img src="<%= item.manifest.logo_url %>" class="mx-auto d-block logo" alt="<%= item.manifest.name_for_human %> Logo"> <!-- Change here -->
                     <a href="<%= item.manifest.api.url %>" class="btn btn-primary api-button">API Documentation</a>
                 </div>
             </div>
         <% }); %>
     </div>
+    <footer class="footer">
+        <p>Created by <a href="https://github.com/Louvivien" target="_blank">Louvivien</a></p>
+    </footer>
 </body>
 </html>
