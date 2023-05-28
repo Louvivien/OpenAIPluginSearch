@@ -2,14 +2,16 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
-const morgan = require('morgan'); // Add this line
+const morgan = require('morgan');
+const NodeCache = require('node-cache');
 require('dotenv').config();
 
 const app = express();
+const myCache = new NodeCache();
 app.use(cors());
 app.set('view engine', 'ejs');
-app.use(express.static('public')); // This line is needed to serve static files like robots.txt and sitemap.xml
-app.use(morgan('combined')); // Add this line
+app.use(express.static('public'));
+app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
     console.log('GET request to /');
@@ -21,18 +23,19 @@ app.get('/search', async (req, res) => {
     const query = req.query.q;
     const url = process.env.SERVER+`${query}`;
 
-    try {
-        const response = await axios.get(url, {
-            headers: {
-                'authorization': `Bearer ${process.env.OPENAI_TOKEN}`,
-                'content-type': 'application/json'
-            }
-        });
+    let filteredItems = myCache.get(query);
+    if (!filteredItems) {
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'authorization': `Bearer ${process.env.OPENAI_TOKEN}`,
+                    'content-type': 'application/json'
+                }
+            });
 
-            // Filter the items based on the query
             const items = response.data.items;
             const queryWords = query.toLowerCase().split(' ');
-            const filteredItems = items
+            filteredItems = items
                 .map(item => {
                     const itemText = (item.namespace + ' ' + item.manifest.description_for_model + ' ' + item.manifest.description_for_human).toLowerCase();
                     const matchCount = queryWords.reduce((count, word) => count + (itemText.includes(word) ? 1 : 0), 0);
@@ -42,12 +45,14 @@ app.get('/search', async (req, res) => {
                 .sort((a, b) => b.matchCount - a.matchCount)
                 .map(({ item }) => item);
 
-
-        res.render('results', { items: filteredItems });
-    } catch (error) {
-        console.error(`Error during /search: ${error.toString()}`);
-        res.json({ error: error.toString() });
+            myCache.set(query, filteredItems, 86400); // Cache for 24 hours
+        } catch (error) {
+            console.error(`Error during /search: ${error.toString()}`);
+            res.json({ error: error.toString() });
+        }
     }
+
+    res.render('results', { items: filteredItems });
 });
 
 const port = process.env.PORT || 3000;
